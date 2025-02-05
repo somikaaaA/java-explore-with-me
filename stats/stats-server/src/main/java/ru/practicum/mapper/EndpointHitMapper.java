@@ -2,9 +2,7 @@ package ru.practicum.mapper;
 
 import lombok.experimental.UtilityClass;
 import ru.practicum.EndpointHitDto;
-import ru.practicum.ViewStatsDto;
 import ru.practicum.model.EndpointHit;
-import ru.practicum.model.ViewStats;
 
 @UtilityClass
 public class EndpointHitMapper {
