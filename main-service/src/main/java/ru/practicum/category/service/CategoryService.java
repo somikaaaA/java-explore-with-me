@@ -35,8 +35,8 @@ public class CategoryService {
 
     @Transactional
     public CategoryDto updateCat(Long id, NewCategoryDto newCategoryDto) {
-        Category oldCat = categoryRepository.findById(id).
-                orElseThrow(()-> new DataNotFoundException("Категория не найдена"));
+        Category oldCat = categoryRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Категория не найдена"));
 
         if (newCategoryDto.getName() != null) {
            oldCat.setName(newCategoryDto.getName());
