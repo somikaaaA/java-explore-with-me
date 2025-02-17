@@ -1,4 +1,4 @@
-package ru.practicum.error;
+package ru.practicum.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.practicum.dto.ApiError;
-import ru.practicum.exception.DataBadRequestException;
-import ru.practicum.exception.DataConflictException;
-import ru.practicum.exception.DataNotFoundException;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
