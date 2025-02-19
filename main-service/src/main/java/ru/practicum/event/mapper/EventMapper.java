@@ -17,6 +17,7 @@ import static ru.practicum.ConstantDateTime.FORMATTER;
 
 @UtilityClass
 public class EventMapper {
+
     public static EventFullDto toFullDto(Event event, Map<Long, Long> views) {
         String publishedOn = "";
         if (event.getPublishedOn() != null)

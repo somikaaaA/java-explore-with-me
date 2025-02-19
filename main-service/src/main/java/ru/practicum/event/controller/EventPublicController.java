@@ -30,12 +30,12 @@ public class EventPublicController {
                                       @RequestParam(required = false, defaultValue = "0") Integer from,
                                       @RequestParam(required = false, defaultValue = "10") Integer size,
                                       HttpServletRequest request) {
-        return eventService.findEventsByPublic(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);
+        return eventService.findEventsByPublic(text,categories,paid,rangeStart,rangeEnd,onlyAvailable,sort,from,size,request);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EventFullDto findById(@PathVariable Long id, HttpServletRequest request) {
-        return eventService.findPublishedEvent(id, request);
+    public EventFullDto findById(@PathVariable Long id,HttpServletRequest request) {
+        return eventService.findPublishedEvent(id,request);
     }
 }
