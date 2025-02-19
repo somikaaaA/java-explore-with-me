@@ -25,21 +25,21 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private final UserRepository usersRepository;
+    private final UserRepository userRepository;
     private final RequestRepository requestRepository;
     private final EventRepository eventRepository;
 
     @Transactional
     public UserDto saveUser(NewUserRequest newUserRequest) {
         User newUser = UserMapper.fromDto(newUserRequest);
-        return UserMapper.toDto(usersRepository.save(newUser));
+        return UserMapper.toDto(userRepository.save(newUser));
     }
 
     @Transactional(readOnly = true)
-    public List<UserDto> findUsers(List<Long> ids, Integer from, Integer size) {
+    public List<UserDto> findUsers(List<Long> ids,Integer from, Integer size) {
         if (ids == null)
             ids = List.of(0L);
-        List<User> users = usersRepository.getUsers(ids,from,size);
+        List<User> users = userRepository.getUsers(ids,from,size);
         return users.stream()
                 .map(UserMapper::toDto)
                 .toList();
@@ -47,12 +47,12 @@ public class UserService {
 
     @Transactional
     public void deleteUser(Long userId) {
-        usersRepository.deleteById(userId);
+        userRepository.deleteById(userId);
     }
 
     @Transactional(readOnly = true)
     public User findUser(Long userId) {
-        return usersRepository.findById(userId)
+        return userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("Пользователь не найден"));
     }
 
@@ -78,7 +78,7 @@ public class UserService {
         if (event.getParticipantLimit() != 0 && event.getParticipantLimit().equals(event.getConfirmedRequests()))
             throw new DataIntegrityViolationException("Исчерпан лимит");
         //проверка пользователя
-        User user = usersRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("Пользователь не найден"));
         if (userId.equals(event.getInitiator().getId()))
             throw new DataIntegrityViolationException("Инициатор события не может быть участником");
@@ -95,7 +95,7 @@ public class UserService {
 
     @Transactional
     public ParticipationRequestDto canselRequest(Long userId, Long requestId) {
-        User user = usersRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("Пользователь не найден"));
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new DataNotFoundException("Запрос не найден"));

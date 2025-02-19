@@ -60,7 +60,7 @@ public class CompilationService {
     }
 
     @Transactional(readOnly = true)
-    public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {
+    public List<CompilationDto> getCompilations(Boolean pinned,Integer from,Integer size) {
         Set<Event> eventSet = new HashSet<>();
         Pageable pageable = PageRequest.of(from / size, size);
         List<Compilation> compilations = compilationRepository.findAllByPinned(pinned, pageable);

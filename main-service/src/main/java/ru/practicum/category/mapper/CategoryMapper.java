@@ -13,17 +13,17 @@ public class CategoryMapper {
                 .build();
     }
 
-    public static Category fromDto(Long id, NewCategoryDto newCategoryDto) {
+    public static Category fromDto(Long id,NewCategoryDto newCategoryDto) {
         return Category.builder()
                 .id(id)
                 .name(newCategoryDto.getName())
                 .build();
     }
 
-    public static CategoryDto toDto(Category category) {
+    public static CategoryDto toDto(Category cat) {
         return new CategoryDto(
-                category.getId(),
-                category.getName()
+                cat.getId(),
+                cat.getName()
         );
     }
 }

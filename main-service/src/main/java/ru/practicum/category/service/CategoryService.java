@@ -16,38 +16,35 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CategoryService {
-    private  final CategoryRepository categoryRepository;
+    private final CategoryRepository catRepository;
 
     @Transactional
     public CategoryDto saveCat(NewCategoryDto newCategoryDto) {
-        Category newCategory = CategoryMapper.fromDto(newCategoryDto);
+        Category newCat = CategoryMapper.fromDto(newCategoryDto);
         try {
-            return CategoryMapper.toDto(categoryRepository.save(newCategory));
+            return CategoryMapper.toDto(catRepository.save(newCat));
         } catch (Exception e) {
-            throw new DataConflictException("Такое имя уже существует.");
+            throw new DataConflictException("Нарушение уникальности имени");
         }
     }
 
     @Transactional
-    public void deleteCat(Long id) {
-        categoryRepository.deleteById(id);
+    public void deleteCat(Long catId) {
+        catRepository.deleteById(catId);
     }
 
     @Transactional
     public CategoryDto updateCat(Long id, NewCategoryDto newCategoryDto) {
-        Category oldCat = categoryRepository.findById(id)
+        Category oldCat = catRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Категория не найдена"));
-
-        if (newCategoryDto.getName() != null) {
-           oldCat.setName(newCategoryDto.getName());
-        }
-
-        return CategoryMapper.toDto(categoryRepository.save(oldCat));
+        if (newCategoryDto.getName() != null)
+            oldCat.setName(newCategoryDto.getName());
+        return CategoryMapper.toDto(catRepository.save(oldCat));
     }
 
     @Transactional(readOnly = true)
     public List<CategoryDto> findCats(Integer from, Integer size) {
-        List<Category> cats = categoryRepository.getCats(from,size);
+        List<Category> cats = catRepository.getCats(from,size);
         return cats.stream()
                 .map(CategoryMapper::toDto)
                 .toList();
@@ -55,7 +52,7 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public CategoryDto findCatById(Long id) {
-        return CategoryMapper.toDto(categoryRepository.findById(id)
+        return CategoryMapper.toDto(catRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Категория не найдена")));
     }
 }
