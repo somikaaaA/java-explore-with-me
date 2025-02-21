@@ -6,7 +6,7 @@ import ru.practicum.model.EndpointHit;
 
 @UtilityClass
 public class EndpointHitMapper {
-    public static EndpointHit toModelFromDto(EndpointHitDto hitDto) {
+    public static EndpointHit fromDto(EndpointHitDto hitDto) {
         return new EndpointHit(
                 hitDto.getApp(),
                 hitDto.getUri(),
@@ -15,7 +15,7 @@ public class EndpointHitMapper {
         );
     }
 
-    public static EndpointHitDto fromModelToDto(EndpointHit hit) {
+    public static EndpointHitDto toDto(EndpointHit hit) {
         return new EndpointHitDto(
                 hit.getApp(),
                 hit.getUri(),

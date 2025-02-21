@@ -6,11 +6,12 @@ import ru.practicum.model.ViewStats;
 
 @UtilityClass
 public class ViewStatsMapper {
-    public static ViewStatsDto toDto(ViewStats viewStats) {
+
+    public static ViewStatsDto toDto(ViewStats stats) {
         return new ViewStatsDto(
-                viewStats.getApp(),
-                viewStats.getUri(),
-                viewStats.getHits()
+                stats.getApp(),
+                stats.getUri(),
+                stats.getHits()
         );
     }
 }
