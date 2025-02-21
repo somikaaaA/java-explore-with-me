@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecificationExecutor<Event> {
+
     @Query(value = "select * from events " +
             "where initiator = ?1 ", nativeQuery = true)
     Page<Event> findEventsByUserId(Long userId, Pageable pageable);
@@ -23,4 +24,5 @@ public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecific
     Optional<Event> findByIdAndInitiatorId(Long id, Long initiatorId);
 
     Optional<Event> findByIdAndState(Long eventId, State state);
+
 }

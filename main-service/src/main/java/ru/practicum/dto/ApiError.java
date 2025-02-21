@@ -10,9 +10,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class ApiError {
-    private List<String> errors; // Список стектрейсов или описания ошибок
-    private String message; // Сообщение об ошибке
-    private String reason; // Общее описание причины ошибки
-    private String status; // код статуса http-ответа
-    private String timestamp; // Дата и время когда произошла ошибка (в формате "yyyy-MM-dd HH:mm:ss")
+    private List<String> errors;
+    private String message;
+    private String reason;
+    private String status;
+    private String timestamp;
 }

@@ -10,6 +10,7 @@ import ru.practicum.event.model.Event;
 import ru.practicum.event.model.State;
 import ru.practicum.users.mapper.UserMapper;
 import ru.practicum.users.model.User;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -66,20 +67,20 @@ public class EventMapper {
         int limit = 0;
         if (event.getParticipantLimit() != null)
             limit = event.getParticipantLimit();
-        return Event.builder()
-                .annotation(event.getAnnotation())
-                .category(category)
-                .description(event.getDescription())
-                .eventDate(LocalDateTime.parse(event.getEventDate(), FORMATTER))
-                .confirmedRequests(0)
-                .location(event.getLocation())
-                .createdOn(LocalDateTime.now())
-                .paid(paid)
-                .participantLimit(limit)
-                .requestModeration(reqModeration)
-                .title(event.getTitle())
-                .initiator(user)
-                .state(State.PENDING)
-                .build();
+       return Event.builder()
+               .annotation(event.getAnnotation())
+               .category(category)
+               .description(event.getDescription())
+               .eventDate(LocalDateTime.parse(event.getEventDate(), FORMATTER))
+               .confirmedRequests(0)
+               .location(event.getLocation())
+               .createdOn(LocalDateTime.now())
+               .paid(paid)
+               .participantLimit(limit)
+               .requestModeration(reqModeration)
+               .title(event.getTitle())
+               .initiator(user)
+               .state(State.PENDING)
+               .build();
     }
 }

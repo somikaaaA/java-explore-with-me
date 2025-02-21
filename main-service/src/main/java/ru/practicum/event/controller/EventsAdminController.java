@@ -14,17 +14,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/events")
 @AllArgsConstructor
-public class EventAdminController {
+public class EventsAdminController {
     private final EventService eventService;
 
     @GetMapping
     public List<EventFullDto> findEventsWithFilter(@RequestParam(required = false) List<Long> users,
-                                                   @RequestParam(required = false) List<String> states,
-                                                   @RequestParam(required = false) List<Long> categories,
-                                                   @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
-                                                   @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
-                                                   @RequestParam(required = false, defaultValue = "0") Integer from,
-                                                   @RequestParam(required = false, defaultValue = "10") Integer size) {
+                                         @RequestParam(required = false) List<String> states,
+                                         @RequestParam(required = false) List<Long> categories,
+                                         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
+                                         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
+                                         @RequestParam(required = false, defaultValue = "0") Integer from,
+                                         @RequestParam(required = false, defaultValue = "10") Integer size) {
         return eventService.findEventsWithFilter(users,states,categories,rangeStart,rangeEnd,from,size);
     }
 

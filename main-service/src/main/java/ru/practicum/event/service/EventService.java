@@ -27,19 +27,21 @@ import ru.practicum.users.mapper.RequestMapper;
 import ru.practicum.users.model.Request;
 import ru.practicum.users.model.User;
 import ru.practicum.users.repository.RequestRepository;
-import ru.practicum.users.repository.UserRepository;
+import ru.practicum.users.repository.UsersRepository;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
 import static ru.practicum.ConstantDateTime.FORMATTER;
 
 @Service
 @AllArgsConstructor
 public class EventService {
     private final EventRepository eventRepository;
-    private final UserRepository usersRepository;
+    private final UsersRepository usersRepository;
     private final CategoryRepository categoryRepository;
     private final EventViewsComponent eventViewsComponent;
     private final RequestRepository requestRepository;
@@ -148,7 +150,7 @@ public class EventService {
 
     @Transactional
     public EventRequestStatusUpdateResult updateStatusOfRequest(Long userId, Long eventId,
-                                                                EventRequestStatusUpdateRequest statusUpdate) {
+                                                                    EventRequestStatusUpdateRequest statusUpdate) {
         int requestsCount = statusUpdate.getRequestIds().size();
         User user = usersRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("Пользователь не найден"));

@@ -13,7 +13,7 @@ public class CategoryMapper {
                 .build();
     }
 
-    public static Category fromDto(Long id,NewCategoryDto newCategoryDto) {
+    public static Category fromDto(Long id, NewCategoryDto newCategoryDto) {
         return Category.builder()
                 .id(id)
                 .name(newCategoryDto.getName())

@@ -4,8 +4,8 @@ import lombok.experimental.UtilityClass;
 import ru.practicum.compilation.model.Compilation;
 import ru.practicum.dto.CompilationDto;
 import ru.practicum.dto.NewCompilationDto;
-import ru.practicum.event.model.Event;
 import ru.practicum.event.mapper.EventMapper;
+import ru.practicum.event.model.Event;
 
 import java.util.Map;
 import java.util.Set;

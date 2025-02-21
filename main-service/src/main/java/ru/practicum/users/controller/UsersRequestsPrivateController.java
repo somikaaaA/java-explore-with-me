@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users/{userId}/requests")
 @AllArgsConstructor
-public class UserRequestPrivateController {
+public class UsersRequestsPrivateController {
     private final UserService userService;
 
     @GetMapping
@@ -35,4 +35,3 @@ public class UserRequestPrivateController {
         return userService.canselRequest(userId, requestId);
     }
 }
-

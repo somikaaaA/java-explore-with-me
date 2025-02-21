@@ -8,7 +8,7 @@ import ru.practicum.users.model.User;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UsersRepository extends JpaRepository<User, Long> {
     @Query(value = "select * from users " +
             "where (id in (?1) or (coalesce(?1) = 0)) " +
             "limit ?3 offset ?2 ", nativeQuery = true)

@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users/{userId}/events")
 @AllArgsConstructor
-public class EventPrivateController {
+public class EventsPrivateController {
     private final EventService eventService;
 
     @GetMapping
