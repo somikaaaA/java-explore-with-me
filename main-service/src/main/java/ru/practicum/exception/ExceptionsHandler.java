@@ -101,7 +101,7 @@ public class ExceptionsHandler {
         return new ApiError(
                 Collections.singletonList(stackTrace),
                 e.getMessage(),
-                "Отстутсвует обязательный параметр запроса",
+                "Отсутствует обязательный параметр запроса",
                 HttpStatus.BAD_REQUEST.toString(),
                 LocalDateTime.now().toString()
         );

@@ -29,7 +29,7 @@ public class CompilationService {
     public CompilationDto saveCompilation(NewCompilationDto compilation) {
         Set<Event> events;
         if (compilation.getEvents() != null) {
-            events = new HashSet<Event>(eventRepository.findAllByIdIn(compilation.getEvents()));
+            events = new HashSet<>(eventRepository.findAllByIdIn(compilation.getEvents()));
         } else {
             events = new HashSet<>();
         }
@@ -47,7 +47,7 @@ public class CompilationService {
         Compilation oldCompilation = compilationRepository.findById(compId)
                 .orElseThrow(() -> new DataNotFoundException("Подборка не найдена"));
         if (compilation.getEvents() != null && !compilation.getEvents().isEmpty()) {
-            Set<Event> events = new HashSet<Event>(eventRepository.findAllByIdIn(compilation.getEvents()));
+            Set<Event> events = new HashSet<>(eventRepository.findAllByIdIn(compilation.getEvents()));
             oldCompilation.setEvents(events);
         }
         if (compilation.getPinned() != null) {

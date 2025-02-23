@@ -52,11 +52,10 @@ public class EventService {
         User user = usersRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("Пользователь не найден"));
         Pageable pageable = PageRequest.of(from / size, size);
-        List<EventShortDto> events = eventRepository.findEventsByUserId(userId, pageable).getContent()
+        return eventRepository.findEventsByUserId(userId, pageable).getContent()
                 .stream()
                 .map((x) -> (EventMapper.toShortDto(x,Map.of(0L,0L))))
                 .toList();
-        return events;
     }
 
     @Transactional
@@ -170,7 +169,7 @@ public class EventService {
         }
         int confirmedRequests = 0;
         if (event.getConfirmedRequests() != null)
-            confirmedRequests = event.getConfirmedRequests().intValue();
+            confirmedRequests = event.getConfirmedRequests();
 
         switch (status) {
             case "CONFIRMED":
@@ -201,11 +200,10 @@ public class EventService {
         eventRepository.save(event);
         requestRepository.saveAll(requests);
 
-        EventRequestStatusUpdateResult result = new EventRequestStatusUpdateResult(
+        return new EventRequestStatusUpdateResult(
                 confirmed.stream().map(RequestMapper::toDto).toList(),
                 rejected.stream().map(RequestMapper::toDto).toList()
         );
-        return result;
     }
 
     // Admin: События
@@ -315,14 +313,11 @@ public class EventService {
         //условие сортировки
         Sort sortBy = Sort.by("id");
         if (sort != null) {
-            switch (sort) {
-                case "EVENT_DATE":
-                    sortBy = Sort.by("eventDate");
-                    break;
-                case "VIEWS":
-                    sortBy = Sort.by("views");
-                    break;
-            }
+            sortBy = switch (sort) {
+                case "EVENT_DATE" -> Sort.by("eventDate");
+                case "VIEWS" -> Sort.by("views");
+                default -> sortBy;
+            };
         }
         Pageable pageable = PageRequest.of(from / size, size, sortBy);
         //настройка условий поиска
@@ -370,76 +365,38 @@ public class EventService {
     }
 
     private Specification<Event> inUsers(List<Long> users) {
-        return new Specification<Event>() {
-            @Override
-            public Predicate toPredicate(Root<Event> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.in(root.get("initiator").get("id")).value(users);
-            }
-        };
+        return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get("initiator").get("id")).value(users);
     }
 
     private Specification<Event> inStates(List<String> states) {
-        return new Specification<Event>() {
-            @Override
-            public Predicate toPredicate(Root<Event> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.in(root.get("state")).value(states);
-            }
-        };
+        return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get("state")).value(states);
     }
 
     private Specification<Event> inCategories(List<Long> categories) {
-        return new Specification<Event>() {
-            @Override
-            public Predicate toPredicate(Root<Event> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.in(root.get("category").get("id")).value(categories);
-            }
-        };
+        return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get("category").get("id")).value(categories);
     }
 
     private Specification<Event> eventDateGreaterThan(LocalDateTime rangeStart) {
-        return new Specification<Event>() {
-            @Override
-            public Predicate toPredicate(Root<Event> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.greaterThan(root.get("eventDate"), rangeStart);
-            }
-        };
+        return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThan(root.get("eventDate"), rangeStart);
     }
 
     private Specification<Event> eventDateLessThan(LocalDateTime rangeEnd) {
-        return new Specification<Event>() {
-            @Override
-            public Predicate toPredicate(Root<Event> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.lessThan(root.get("eventDate"), rangeEnd);
-            }
-        };
+        return (root, query, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("eventDate"), rangeEnd);
     }
 
     private Specification<Event> annotationOrDescriptionLike(String text) {
-        return new Specification<Event>() {
-            @Override
-            public Predicate toPredicate(Root<Event> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                Predicate predicateAnnotation = criteriaBuilder.like(criteriaBuilder.lower(root.get("annotation")), "%" + text.toLowerCase() + "%");
-                Predicate predicateDescription = criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + text.toLowerCase() + "%");
-                return criteriaBuilder.or(predicateAnnotation, predicateDescription);
-            }
+        return (root, query, criteriaBuilder) -> {
+            Predicate predicateAnnotation = criteriaBuilder.like(criteriaBuilder.lower(root.get("annotation")), "%" + text.toLowerCase() + "%");
+            Predicate predicateDescription = criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + text.toLowerCase() + "%");
+            return criteriaBuilder.or(predicateAnnotation, predicateDescription);
         };
     }
 
     private Specification<Event> equalsPaid(boolean paid) {
-        return new Specification<Event>() {
-            @Override
-            public Predicate toPredicate(Root<Event> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("paid"), paid);
-            }
-        };
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("paid"), paid);
     }
 
     private Specification<Event> onlyAvailable() {
-        return new Specification<Event>() {
-            @Override
-            public Predicate toPredicate(Root<Event> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.lessThan(root.get("confirmed_requests"), root.get("participant_limit"));
-            }
-        };
+        return (root, query, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("confirmed_requests"), root.get("participant_limit"));
     }
 }
