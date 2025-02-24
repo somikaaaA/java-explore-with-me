@@ -27,7 +27,7 @@ public class EventsPublicController {
                                       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
                                       @RequestParam(required = false) Boolean onlyAvailable,
                                       @RequestParam(required = false) String sort,
-                                      @RequestParam(required = false, defaultValue = "0") Integer from,
+                                      @RequestParam(defaultValue = "0") Integer from,
                                       @RequestParam(required = false, defaultValue = "10") Integer size,
                                       HttpServletRequest request) {
         return eventService.findEventsByPublic(text,categories,paid,rangeStart,rangeEnd,onlyAvailable,sort,from,size,request);
