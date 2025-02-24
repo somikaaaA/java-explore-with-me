@@ -7,7 +7,6 @@ import ru.practicum.category.model.Category;
 
 import java.util.List;
 
-@Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(value = "select * from categories " +
             "limit ?2 offset ?1 ", nativeQuery = true)

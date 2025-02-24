@@ -12,7 +12,6 @@ import ru.practicum.event.model.State;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecificationExecutor<Event> {
 
     @Query(value = "select * from events " +
