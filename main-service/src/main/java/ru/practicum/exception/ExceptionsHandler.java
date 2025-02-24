@@ -1,5 +1,6 @@
 package ru.practicum.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 
 @RestControllerAdvice
+@Slf4j
 public class ExceptionsHandler {
 
     @ExceptionHandler
@@ -23,6 +25,7 @@ public class ExceptionsHandler {
         StringWriter out = new StringWriter();
         e.printStackTrace(new PrintWriter(out));
         String stackTrace = out.toString();
+        log.error("Ошибка валидации параметра: {}", e.getMessage(), e);
         return new ApiError(
                 Collections.singletonList(stackTrace),
                 "Ошибка валидации параметра",
@@ -38,6 +41,7 @@ public class ExceptionsHandler {
         StringWriter out = new StringWriter();
         e.printStackTrace(new PrintWriter(out));
         String stackTrace = out.toString();
+        log.error("Нарушение целостности данных: {}", e.getMessage(), e);
         return new ApiError(
                 Collections.singletonList(stackTrace),
                 e.getMessage(),
@@ -53,6 +57,7 @@ public class ExceptionsHandler {
         StringWriter out = new StringWriter();
         e.printStackTrace(new PrintWriter(out));
         String stackTrace = out.toString();
+        log.error("Данные не найдены: {}", e.getMessage(), e);
         return new ApiError(
                 Collections.singletonList(stackTrace),
                 e.getMessage(),
@@ -68,6 +73,7 @@ public class ExceptionsHandler {
         StringWriter out = new StringWriter();
         e.printStackTrace(new PrintWriter(out));
         String stackTrace = out.toString();
+        log.error("Конфликт данных: {}", e.getMessage(), e);
         return new ApiError(
                 Collections.singletonList(stackTrace),
                 e.getMessage(),
@@ -83,6 +89,7 @@ public class ExceptionsHandler {
         StringWriter out = new StringWriter();
         e.printStackTrace(new PrintWriter(out));
         String stackTrace = out.toString();
+        log.error("Некорректный запрос: {}", e.getMessage(), e);
         return new ApiError(
                 Collections.singletonList(stackTrace),
                 e.getMessage(),
@@ -98,6 +105,7 @@ public class ExceptionsHandler {
         StringWriter out = new StringWriter();
         e.printStackTrace(new PrintWriter(out));
         String stackTrace = out.toString();
+        log.error("Отсутствует обязательный параметр запроса: {}", e.getMessage(), e);
         return new ApiError(
                 Collections.singletonList(stackTrace),
                 e.getMessage(),
@@ -113,6 +121,7 @@ public class ExceptionsHandler {
         StringWriter out = new StringWriter();
         e.printStackTrace(new PrintWriter(out));
         String stackTrace = out.toString();
+        log.error("Необрабатываемая ошибка: {}", e.getMessage(), e);
         return new ApiError(
                 Collections.singletonList(stackTrace),
                 e.getMessage(),
