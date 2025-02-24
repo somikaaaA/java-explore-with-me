@@ -19,8 +19,8 @@ public class UserAdminController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> findUsers(@RequestParam(required = false) List<Long> ids,
-                                   @RequestParam(required = false, defaultValue = "0") Integer from,
-                                   @RequestParam(required = false, defaultValue = "10") Integer size) {
+                                   @RequestParam(defaultValue = "0") Integer from,
+                                   @RequestParam(defaultValue = "10") Integer size) {
         return userService.findUsers(ids,from,size);
     }
 

@@ -18,8 +18,8 @@ public class EventsPrivateController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<EventShortDto> findEvents(@PathVariable Long userId,
-                                          @RequestParam(required = false, defaultValue = "0") Integer from,
-                                          @RequestParam(required = false, defaultValue = "10") Integer size) {
+                                          @RequestParam(defaultValue = "0") Integer from,
+                                          @RequestParam(defaultValue = "10") Integer size) {
         return eventService.findEvents(userId,from,size);
     }
 
