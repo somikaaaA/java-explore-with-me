@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.rating.dto.EventRatingDto;
 import ru.practicum.rating.dto.UserRatingDto;
-import ru.practicum.rating.model.Rating;
 import ru.practicum.rating.service.RatingService;
 
 import java.util.List;
